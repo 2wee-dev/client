@@ -13,5 +13,5 @@ ratatui = "0.28"
 reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
 serde_json = "1"
 tokio = { version = "1", features = ["full"] }
-two_wee_shared = { path = "../shared" }
+two_wee_shared = { path = "shared" }
 nucleo-matcher = "0.3.1"
