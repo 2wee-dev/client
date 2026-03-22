@@ -1,0 +1,1263 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "ActionDef": {
+      "properties": {
+        "confirm_message": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "fields": {
+          "default": [],
+          "items": {
+            "$ref": "#/definitions/ActionField"
+          },
+          "type": "array"
+        },
+        "icon": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ActionKind"
+            }
+          ],
+          "default": "simple"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "endpoint",
+        "id",
+        "label"
+      ],
+      "type": "object"
+    },
+    "ActionField": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "options": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/OptionValues"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "placeholder": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "required": {
+          "default": false,
+          "type": "boolean"
+        },
+        "rows": {
+          "format": "uint8",
+          "minimum": 0.0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "type": {
+          "$ref": "#/definitions/FieldType"
+        },
+        "validation": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Validation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "value": {
+          "default": "",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "type"
+      ],
+      "type": "object"
+    },
+    "ActionKind": {
+      "enum": [
+        "simple",
+        "confirm",
+        "modal"
+      ],
+      "type": "string"
+    },
+    "ColumnAlign": {
+      "enum": [
+        "left",
+        "right",
+        "center"
+      ],
+      "type": "string"
+    },
+    "ColumnDef": {
+      "properties": {
+        "align": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ColumnAlign"
+            }
+          ],
+          "default": "left"
+        },
+        "editable": {
+          "default": false,
+          "type": "boolean"
+        },
+        "formula": {
+          "description": "Arithmetic formula referencing other column IDs. Evaluated client-side after each edit. E.g. \"quantity * unit_price * (1 - line_discount_pct / 100)\"",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "lookup": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LookupInfo"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "options": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/OptionValues"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "quick_entry": {
+          "default": true,
+          "description": "When false, Enter skips this column. Tab still visits all columns. Default: true.",
+          "type": "boolean"
+        },
+        "type": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/FieldType"
+            }
+          ],
+          "default": "Text"
+        },
+        "validation": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Validation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "width": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ColumnWidth"
+            }
+          ],
+          "default": 10
+        }
+      },
+      "required": [
+        "id",
+        "label"
+      ],
+      "type": "object"
+    },
+    "ColumnWidth": {
+      "anyOf": [
+        {
+          "format": "uint16",
+          "minimum": 0.0,
+          "type": "integer"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "Field": {
+      "properties": {
+        "bold": {
+          "description": "When true, the field value is rendered bold.",
+          "type": "boolean"
+        },
+        "color": {
+          "description": "Color name for this field's value text (e.g. \"yellow\", \"red\").",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "editable": {
+          "default": true,
+          "type": "boolean"
+        },
+        "false_color": {
+          "description": "Color name for the false state (e.g. \"red\"). Default: field value color.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "false_label": {
+          "description": "Text shown when the Boolean field is false. Default: \"No\".",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "focus": {
+          "description": "When true, the cursor starts on this field when the screen opens. Only one field per form should set this. Default: false.",
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "lookup": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LookupInfo"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "options": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/OptionValues"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "placeholder": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "quick_entry": {
+          "default": true,
+          "description": "When false, Enter skips this field (fast data entry path). Tab still visits all fields. Default: true.",
+          "type": "boolean"
+        },
+        "rows": {
+          "description": "Number of visible rows for TextArea fields. Default: 4.",
+          "format": "uint8",
+          "minimum": 0.0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "true_color": {
+          "description": "Color name for the true state (e.g. \"green\", \"red\"). Default: field value color.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "true_label": {
+          "description": "Text shown when the Boolean field is true. Default: \"Yes\".",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {
+          "$ref": "#/definitions/FieldType"
+        },
+        "validation": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Validation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "value": {
+          "default": "",
+          "type": "string"
+        },
+        "width": {
+          "default": null,
+          "format": "uint16",
+          "minimum": 0.0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "type"
+      ],
+      "type": "object"
+    },
+    "FieldType": {
+      "enum": [
+        "Text",
+        "Decimal",
+        "Integer",
+        "Date",
+        "Email",
+        "Phone",
+        "URL",
+        "Boolean",
+        "Option",
+        "Password",
+        "TextArea",
+        "DateRange",
+        "Time",
+        "Separator"
+      ],
+      "type": "string"
+    },
+    "LayoutKind": {
+      "enum": [
+        "Card",
+        "List",
+        "HeaderLines",
+        "Grid",
+        "Menu"
+      ],
+      "type": "string"
+    },
+    "Locale": {
+      "properties": {
+        "date_format": {
+          "default": "DD-MM-YYYY",
+          "description": "Date display format: \"DD-MM-YYYY\" (Danish/European) or \"MM-DD-YYYY\" (US)",
+          "type": "string"
+        },
+        "decimal_separator": {
+          "default": ",",
+          "type": "string"
+        },
+        "thousand_separator": {
+          "default": ".",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "LookupContext": {
+      "description": "Maps a field/column value to a query parameter for context-dependent lookups.",
+      "properties": {
+        "field": {
+          "description": "The `id` of the field (card) or column (grid) to read the value from.",
+          "type": "string"
+        },
+        "param": {
+          "description": "The query parameter name. Defaults to `field` if omitted.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "field"
+      ],
+      "type": "object"
+    },
+    "LookupInfo": {
+      "properties": {
+        "context": {
+          "description": "Context fields whose current values are sent as query parameters. On cards: reads from other card fields. On grids: reads from same-row columns.",
+          "items": {
+            "$ref": "#/definitions/LookupContext"
+          },
+          "type": "array"
+        },
+        "display": {
+          "default": null,
+          "description": "\"modal\" for inline modal overlay, absent/None for full-screen list.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "display_field": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "validate": {
+          "default": null,
+          "description": "When set, the client validates the field value on blur by calling this endpoint. e.g. \"/validate/post_code\" → GET /validate/post_code/{value}",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "endpoint"
+      ],
+      "type": "object"
+    },
+    "MenuActionDef": {
+      "oneOf": [
+        {
+          "description": "Open a screen by fetching a URL (customer_list, customer_card, etc.)",
+          "properties": {
+            "type": {
+              "enum": [
+                "open_screen"
+              ],
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "url"
+          ],
+          "type": "object"
+        },
+        {
+          "description": "Open a sub-menu by fetching a URL (pushes current menu onto screen stack)",
+          "properties": {
+            "type": {
+              "enum": [
+                "open_menu"
+              ],
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "url"
+          ],
+          "type": "object"
+        },
+        {
+          "description": "Open a URL in the system default browser",
+          "properties": {
+            "type": {
+              "enum": [
+                "open_url"
+              ],
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "url"
+          ],
+          "type": "object"
+        },
+        {
+          "description": "Show a message in the status bar",
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "message"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "text",
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "description": "Visual separator — non-selectable divider line between item groups",
+          "properties": {
+            "type": {
+              "enum": [
+                "separator"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "description": "Inline popup with a small list of items overlaid on the menu column",
+          "properties": {
+            "items": {
+              "items": {
+                "$ref": "#/definitions/PopupItemDef"
+              },
+              "type": "array"
+            },
+            "type": {
+              "enum": [
+                "popup"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "items",
+            "type"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "MenuItemDef": {
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/MenuActionDef"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "action",
+        "label"
+      ],
+      "type": "object"
+    },
+    "MenuSpec": {
+      "properties": {
+        "panel_title": {
+          "type": "string"
+        },
+        "tabs": {
+          "items": {
+            "$ref": "#/definitions/MenuTab"
+          },
+          "type": "array"
+        },
+        "top_left": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "top_right": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "panel_title",
+        "tabs"
+      ],
+      "type": "object"
+    },
+    "MenuTab": {
+      "properties": {
+        "items": {
+          "items": {
+            "$ref": "#/definitions/MenuItemDef"
+          },
+          "type": "array"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "items",
+        "label"
+      ],
+      "type": "object"
+    },
+    "OptionPair": {
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "value"
+      ],
+      "type": "object"
+    },
+    "OptionValues": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/OptionPair"
+          },
+          "type": "array"
+        }
+      ]
+    },
+    "PopupActionDef": {
+      "oneOf": [
+        {
+          "properties": {
+            "type": {
+              "enum": [
+                "open_screen"
+              ],
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "url"
+          ],
+          "type": "object"
+        },
+        {
+          "properties": {
+            "type": {
+              "enum": [
+                "open_menu"
+              ],
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "url"
+          ],
+          "type": "object"
+        },
+        {
+          "properties": {
+            "type": {
+              "enum": [
+                "open_url"
+              ],
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "url"
+          ],
+          "type": "object"
+        },
+        {
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "message"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "text",
+            "type"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "PopupItemDef": {
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/PopupActionDef"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "action",
+        "label"
+      ],
+      "type": "object"
+    },
+    "Section": {
+      "properties": {
+        "column": {
+          "default": 0,
+          "format": "uint8",
+          "minimum": 0.0,
+          "type": "integer"
+        },
+        "fields": {
+          "items": {
+            "$ref": "#/definitions/Field"
+          },
+          "type": "array"
+        },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "row_group": {
+          "default": 0,
+          "format": "uint8",
+          "minimum": 0.0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "fields",
+        "id",
+        "label"
+      ],
+      "type": "object"
+    },
+    "TableRow": {
+      "properties": {
+        "index": {
+          "format": "uint",
+          "minimum": 0.0,
+          "type": "integer"
+        },
+        "values": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "index",
+        "values"
+      ],
+      "type": "object"
+    },
+    "TableSpec": {
+      "properties": {
+        "autofill": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {},
+          "description": "For lookup tables: maps column IDs in this table → field IDs on the originating card.",
+          "type": "object"
+        },
+        "columns": {
+          "items": {
+            "$ref": "#/definitions/ColumnDef"
+          },
+          "type": "array"
+        },
+        "current_page": {
+          "default": 0,
+          "format": "uint",
+          "minimum": 0.0,
+          "type": "integer"
+        },
+        "editable": {
+          "default": false,
+          "type": "boolean"
+        },
+        "on_drill": {
+          "default": null,
+          "description": "URL template for Ctrl+Enter drill-down into a row's detail view. Uses {0}, {1}, etc. for column value substitution, same as on_select.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "on_select": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "page_size": {
+          "default": 25,
+          "format": "uint",
+          "minimum": 0.0,
+          "type": "integer"
+        },
+        "row_count": {
+          "default": 0,
+          "format": "uint",
+          "minimum": 0.0,
+          "type": "integer"
+        },
+        "rows": {
+          "default": [],
+          "items": {
+            "$ref": "#/definitions/TableRow"
+          },
+          "type": "array"
+        },
+        "selectable": {
+          "default": false,
+          "type": "boolean"
+        },
+        "table_align": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "value_column": {
+          "default": null,
+          "description": "For lookup tables: which column's value is returned to the originating field.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "columns"
+      ],
+      "type": "object"
+    },
+    "TotalField": {
+      "description": "A label+value pair for the totals footer row.\n\nWhen `source_column` is set, the client computes the value live from grid data instead of waiting for the next server response.",
+      "properties": {
+        "aggregate": {
+          "description": "Aggregation function: \"sum\" (default), \"count\", \"avg\", \"min\", \"max\".",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "decimals": {
+          "description": "Formatting precision (number of decimal places). Defaults to 2.",
+          "format": "uint8",
+          "minimum": 0.0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "label": {
+          "type": "string"
+        },
+        "source_column": {
+          "description": "Column id to aggregate (e.g. \"amount\"). When present, the client computes this total live from grid data.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "value"
+      ],
+      "type": "object"
+    },
+    "UiStrings": {
+      "properties": {
+        "cancelled": {
+          "default": "",
+          "type": "string"
+        },
+        "connecting": {
+          "default": "",
+          "type": "string"
+        },
+        "copied": {
+          "default": "",
+          "type": "string"
+        },
+        "created": {
+          "default": "",
+          "type": "string"
+        },
+        "deleted": {
+          "default": "",
+          "type": "string"
+        },
+        "error_prefix": {
+          "default": "",
+          "type": "string"
+        },
+        "loading": {
+          "default": "",
+          "type": "string"
+        },
+        "login_error": {
+          "default": "",
+          "type": "string"
+        },
+        "logout": {
+          "default": "",
+          "type": "string"
+        },
+        "no_changes": {
+          "default": "",
+          "type": "string"
+        },
+        "quit_message": {
+          "default": "",
+          "type": "string"
+        },
+        "quit_no": {
+          "default": "",
+          "type": "string"
+        },
+        "quit_title": {
+          "default": "",
+          "type": "string"
+        },
+        "quit_yes": {
+          "default": "",
+          "type": "string"
+        },
+        "save_confirm_cancel": {
+          "default": "",
+          "type": "string"
+        },
+        "save_confirm_discard": {
+          "default": "",
+          "type": "string"
+        },
+        "save_confirm_message": {
+          "default": "",
+          "type": "string"
+        },
+        "save_confirm_save": {
+          "default": "",
+          "type": "string"
+        },
+        "save_confirm_title": {
+          "default": "",
+          "type": "string"
+        },
+        "save_error_prefix": {
+          "default": "",
+          "type": "string"
+        },
+        "saved": {
+          "default": "",
+          "type": "string"
+        },
+        "saving": {
+          "default": "",
+          "type": "string"
+        },
+        "server_unavailable": {
+          "default": "",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Validation": {
+      "properties": {
+        "decimals": {
+          "default": null,
+          "format": "uint8",
+          "minimum": 0.0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "input_mask": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "max": {
+          "default": null,
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "max_length": {
+          "default": null,
+          "format": "uint",
+          "minimum": 0.0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "min": {
+          "default": null,
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "min_length": {
+          "default": null,
+          "format": "uint",
+          "minimum": 0.0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "pattern": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "required": {
+          "default": null,
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "type": "object"
+    }
+  },
+  "properties": {
+    "actions": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "default": {},
+      "description": "Action URLs keyed by name (e.g. \"save\", \"create\", \"delete\"). Values are always URLs.",
+      "type": "object"
+    },
+    "auth_action": {
+      "default": null,
+      "description": "When set, Ctrl+S posts fields to this URL as AuthRequest instead of SaveChangeset",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "layout": {
+      "$ref": "#/definitions/LayoutKind"
+    },
+    "lines": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/TableSpec"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "lines_open": {
+      "description": "When true, the lines overlay opens automatically on HeaderLines screens. Default: false (user opens with Ctrl+L).",
+      "type": "boolean"
+    },
+    "lines_overlay_pct": {
+      "default": 50,
+      "description": "Lines overlay height as percentage of body area (0–100). Default: 50.",
+      "format": "uint8",
+      "minimum": 0.0,
+      "type": "integer"
+    },
+    "locale": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Locale"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "menu": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/MenuSpec"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "parent_url": {
+      "description": "The natural parent of this screen. When the client has no navigation history (e.g. after an action redirect), Escape fetches this URL instead of quitting.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "record_id": {
+      "description": "The current record's machine identifier. Included in ActionRequest when executing screen actions. Empty string for screens with no record identity (menus, journals).",
+      "type": "string"
+    },
+    "screen_actions": {
+      "description": "Server-driven contextual actions (send email, print, change status, etc.)",
+      "items": {
+        "$ref": "#/definitions/ActionDef"
+      },
+      "type": "array"
+    },
+    "screen_id": {
+      "default": "",
+      "description": "Machine identifier for this screen (e.g. \"customer_card\", \"sales_order\"). Echoed back by the client in SaveChangeset and DeleteRequest. Must be stable snake_case — never changes for a given resource type.",
+      "type": "string"
+    },
+    "sections": {
+      "default": [],
+      "items": {
+        "$ref": "#/definitions/Section"
+      },
+      "type": "array"
+    },
+    "status": {
+      "default": null,
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "totals": {
+      "description": "Summary totals rendered in a footer row below the grid.",
+      "items": {
+        "$ref": "#/definitions/TotalField"
+      },
+      "type": "array"
+    },
+    "ui_strings": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/UiStrings"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "user_display_name": {
+      "default": null,
+      "description": "Authenticated user's display name (for status bar)",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "work_date": {
+      "default": null,
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "layout",
+    "title"
+  ],
+  "title": "ScreenContract",
+  "type": "object"
+}

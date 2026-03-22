@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Server response to a lookup field validation request.",
+  "properties": {
+    "autofill": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "default": {},
+      "description": "Autofill values to write to other card fields (only when valid).",
+      "type": "object"
+    },
+    "error": {
+      "default": null,
+      "description": "Error message to display (only when invalid).",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "valid": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "valid"
+  ],
+  "title": "ValidateResponse",
+  "type": "object"
+}

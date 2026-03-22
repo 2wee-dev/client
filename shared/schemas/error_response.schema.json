@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Response body for HTTP 4xx/5xx error responses.",
+  "properties": {
+    "code": {
+      "default": null,
+      "description": "Machine-readable error code (e.g. \"not_found\", \"unauthorized\").",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "error": {
+      "description": "Human-readable error message.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "error"
+  ],
+  "title": "ErrorResponse",
+  "type": "object"
+}

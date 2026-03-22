@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "action": {
+      "default": null,
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "changes": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "type": "object"
+    },
+    "lines": {
+      "default": [],
+      "description": "Grid lines data: each inner Vec<String> is one row's column values.",
+      "items": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "type": "array"
+    },
+    "record_id": {
+      "type": "string"
+    },
+    "screen_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "changes",
+    "record_id",
+    "screen_id"
+  ],
+  "title": "SaveChangeset",
+  "type": "object"
+}
