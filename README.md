@@ -43,4 +43,4 @@ cargo build --release
 
 ## Documentation
 
-Full documentation at [2wee.dev/docs](https://2wee.dev/docs).
+Full documentation at [2wee.dev](https://2wee.dev/client/overview).
