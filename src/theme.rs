@@ -5,6 +5,7 @@ pub enum ThemeMode {
     Default,
     Navision,
     IbmAS400,
+    Color256,
 }
 
 /// Every color in the UI is a semantic token. To restyle the entire application,
@@ -280,6 +281,99 @@ impl Theme {
             grid_cell_editing_bg: editing,
             grid_cell_editing_fg: orange,
 
+        }
+    }
+
+    /// 256-color variant of the default dark theme.
+    ///
+    /// Uses only xterm `Color::Indexed(n)` values (0–255) so it renders correctly
+    /// in terminals that don't support true color — including macOS Terminal.app.
+    /// Each color is the closest xterm-256 match to the Default Dark RGB palette.
+    ///
+    /// Palette mapping (Default Dark RGB → xterm-256 index):
+    /// - base       #1e1e2e → 235 #262626  (nearest dark grey)
+    /// - base_deeper#141420 → 233 #121212  (deeper dark)
+    /// - base_raised#282840 → 237 #3a3a3a  (slightly raised)
+    /// - teal       #56b6c2 →  73 #5fafaf  (closest cyan-teal)
+    /// - teal_dark  #2e6b73 →  66 #5f8787  (muted teal; no darker match in cube)
+    /// - blue_muted #3d5a80 →  60 #5f5f87  (muted blue)
+    /// - blue_deep  #2a3f5f →  17 #00005f  (deep blue)
+    /// - text       #e0e0e0 → 253 #dadada  (off-white)
+    /// - text_dim   #808890 → 102 #878787  (grey)
+    /// - gold       #e0c080 → 179 #d7af5f  (warm yellow)
+    /// - highlight  #3a3a5c → 237 #3a3a3a  (dark selection bg)
+    /// - red_soft   #e06c75 → 167 #d75f5f  (soft red)
+    /// - error_bg   #C02B2B → 160 #d70000  (bold red)
+    /// - error_fg   #FFE080 → 221 #ffd75f  (warm bright yellow)
+    pub fn color_256() -> Self {
+        let base        = Color::Indexed(235);  // #262626 ≈ #1e1e2e
+        let base_deeper = Color::Indexed(233);  // #121212 ≈ #141420
+        let base_raised = Color::Indexed(237);  // #3a3a3a ≈ #282840
+
+        let teal        = Color::Indexed(73);   // #5fafaf ≈ #56b6c2
+        let teal_dark   = Color::Indexed(66);   // #5f8787 ≈ #2e6b73
+        let blue_muted  = Color::Indexed(60);   // #5f5f87 ≈ #3d5a80
+        let blue_deep   = Color::Indexed(17);   // #00005f ≈ #2a3f5f
+
+        let text        = Color::Indexed(253);  // #dadada ≈ #e0e0e0
+        let text_dim    = Color::Indexed(102);  // #878787 ≈ #808890
+        let gold        = Color::Indexed(179);  // #d7af5f ≈ #e0c080
+
+        let highlight   = Color::Indexed(237);  // #3a3a3a ≈ #3a3a5c
+        let red_soft    = Color::Indexed(167);  // #d75f5f ≈ #e06c75
+
+        Self {
+            desktop: base,
+            content_bg: base,
+            text,
+
+            bar_bg: teal_dark,
+            bar_text: text,
+            status_text: gold,
+            form_error_text: red_soft,
+            error_bar_bg: Color::Indexed(160),  // #d70000 ≈ #C02B2B
+            error_bar_fg: Color::Indexed(221),  // #ffd75f ≈ #FFE080
+
+            card_border: teal_dark,
+            card_title: teal,
+
+            label: teal,
+            field_value: text,
+            field_readonly: text_dim,
+            field_dirty: gold,
+
+            field_focused_bg: highlight,
+            field_focused_fg: text,
+            field_editing_bg: blue_muted,
+            field_editing_fg: text,
+            field_text_selected_bg: blue_deep,
+            field_text_selected_fg: text,
+
+            table_text: text,
+            table_header_fg: text,
+            table_selected_bg: teal,
+            table_selected_fg: base,
+
+            grid_bg: base_deeper,
+            grid_line: teal_dark,
+            grid_text: text,
+            grid_header_fg: text,
+            grid_cell_focused_bg: highlight,
+            grid_cell_focused_fg: text,
+            grid_cell_editing_bg: blue_muted,
+            grid_cell_editing_fg: text,
+
+            tab_header_bg: teal_dark,
+            tab_header_text: text,
+            menu_selected_bg: red_soft,
+            menu_selected_text: text,
+            menu_grid: teal_dark,
+
+            modal_bg: base_raised,
+            modal_text: text,
+            modal_border: teal_dark,
+            modal_selected_bg: teal,
+            modal_selected_fg: base,
         }
     }
 

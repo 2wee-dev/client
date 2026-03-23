@@ -77,7 +77,7 @@ fn option_line(label: &str, selected: bool, width: u16, app: &App) -> Line<'stat
 }
 
 pub fn draw_theme_modal(frame: &mut Frame, app: &App) {
-    let themes = [ThemeMode::Default, ThemeMode::Navision, ThemeMode::IbmAS400];
+    let themes = [ThemeMode::Default, ThemeMode::Navision, ThemeMode::IbmAS400, ThemeMode::Color256];
     // Height: border(2) + title(1) + gap(1) + options(3) + gap(1) + current(1)
     let h = 2 + 1 + 1 + themes.len() as u16 + 1 + 1;
 

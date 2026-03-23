@@ -323,14 +323,23 @@ pub struct CardFieldRef {
 
 impl App {
     pub fn new(host_url: String) -> Self {
+        let default_theme_mode = if std::env::var("TERM_PROGRAM").as_deref() == Ok("Apple_Terminal") {
+            ThemeMode::Color256
+        } else {
+            ThemeMode::Default
+        };
+        let default_theme = match default_theme_mode {
+            ThemeMode::Color256 => Theme::color_256(),
+            _ => Theme::default_dark(),
+        };
         Self {
             mode: ScreenMode::Menu,
             message: String::from("Connecting..."),
             message_is_error: false,
             form_error: String::new(),
             quit_confirm_open: false,
-            theme_mode: ThemeMode::Default,
-            theme: Theme::default_dark(),
+            theme_mode: default_theme_mode,
+            theme: default_theme,
             theme_modal_open: false,
             theme_modal_index: 0,
             header_input_mode: HeaderInputMode::Select,
@@ -3851,6 +3860,7 @@ impl App {
             ThemeMode::Default => 0,
             ThemeMode::Navision => 1,
             ThemeMode::IbmAS400 => 2,
+            ThemeMode::Color256 => 3,
         };
     }
 
@@ -3910,18 +3920,19 @@ impl App {
     }
 
     pub fn move_theme_next(&mut self) {
-        self.theme_modal_index = (self.theme_modal_index + 1) % 3;
+        self.theme_modal_index = (self.theme_modal_index + 1) % 4;
     }
 
     pub fn move_theme_prev(&mut self) {
-        self.theme_modal_index = if self.theme_modal_index == 0 { 2 } else { self.theme_modal_index - 1 };
+        self.theme_modal_index = if self.theme_modal_index == 0 { 3 } else { self.theme_modal_index - 1 };
     }
 
     pub fn apply_theme_selection(&mut self) {
         let selected = match self.theme_modal_index {
             0 => ThemeMode::Default,
             1 => ThemeMode::Navision,
-            _ => ThemeMode::IbmAS400,
+            2 => ThemeMode::IbmAS400,
+            _ => ThemeMode::Color256,
         };
         self.set_theme(selected);
     }
@@ -3932,6 +3943,7 @@ impl App {
             ThemeMode::Default => Theme::default_dark(),
             ThemeMode::Navision => Theme::navision(),
             ThemeMode::IbmAS400 => Theme::ibm_as400(),
+            ThemeMode::Color256 => Theme::color_256(),
         };
     }
 
@@ -3940,6 +3952,7 @@ impl App {
             ThemeMode::Default => "Default Dark",
             ThemeMode::Navision => "Navision Classic",
             ThemeMode::IbmAS400 => "IBM AS/400",
+            ThemeMode::Color256 => "256 Color",
         }
     }
 
