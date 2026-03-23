@@ -3,6 +3,10 @@ name = "two_wee_client"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "2wee"
+path = "src/main.rs"
+
 [dependencies]
 chrono = "0.4"
 regex = "1"
