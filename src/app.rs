@@ -1,7 +1,16 @@
 use std::time::{Duration, Instant};
 
 pub fn open_in_browser(url: &str) -> String {
-    match std::process::Command::new("open").arg(url).spawn() {
+    #[cfg(target_os = "macos")]
+    let cmd = std::process::Command::new("open").arg(url).spawn();
+
+    #[cfg(target_os = "linux")]
+    let cmd = std::process::Command::new("xdg-open").arg(url).spawn();
+
+    #[cfg(target_os = "windows")]
+    let cmd = std::process::Command::new("cmd").args(["/C", "start", url]).spawn();
+
+    match cmd {
         Ok(_) => format!("Opened: {}", url),
         Err(e) => format!("Open error: {}", e),
     }

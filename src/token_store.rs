@@ -1,8 +1,10 @@
 use std::collections::hash_map::DefaultHasher;
 use std::fs;
 use std::hash::{Hash, Hasher};
-use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
+
+#[cfg(unix)]
+use std::os::unix::fs::PermissionsExt;
 
 fn token_dir() -> PathBuf {
     dirs::home_dir().unwrap().join(".2wee")
@@ -23,7 +25,8 @@ pub fn store_token(server_url: &str, token: &str) {
     let path = token_path(server_url);
     let _ = fs::create_dir_all(path.parent().unwrap());
     let _ = fs::write(&path, token);
-    // Owner-only read/write (chmod 600)
+    // Owner-only read/write (chmod 600) — Unix only; Windows uses ACLs
+    #[cfg(unix)]
     let _ = fs::set_permissions(&path, fs::Permissions::from_mode(0o600));
 }
 
