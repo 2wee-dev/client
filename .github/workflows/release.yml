@@ -87,4 +87,5 @@ jobs:
           files: |
             2wee-*
             install.sh
+            install.ps1
           generate_release_notes: true
